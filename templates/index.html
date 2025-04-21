@@ -32,12 +32,29 @@
             text-align: center;
             margin: 20px 0;
         }
+        .rumus {
+            margin: 30px 0;
+            text-align: center;
+        }
+        .rumus img {
+            max-width: 50%;
+            height: auto;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1 class="text-center mb-4">Visualisasi Distribusi Poisson</h1>
         
+        <div class="rumus">
+            <h3 class="mb-4">Rumus Distribusi Poisson</h3>
+            <img src="{{ url_for('static', filename='Rumus.jpg') }}" alt="Rumus Distribusi Poisson" class="mb-3">
+            <img src="{{ url_for('static', filename='Penjelasan_rumus.jpg') }}" alt="Penjelasan Rumus Distribusi Poisson">
+        </div>
+
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <form id="poissonForm" class="mb-4">
