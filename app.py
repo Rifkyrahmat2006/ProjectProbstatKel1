@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, jsonify
 import math
-import numpy as np
 import matplotlib.pyplot as plt
 import io
 import base64
@@ -28,11 +27,15 @@ def calculate():
         if lambda_val <= 0 or x_max < 0:
             return jsonify({'error': 'Invalid input values'}), 400
             
-        # Calculate probabilities
-        x_values = list(range(x_max + 1))
-        probabilities = [poisson_probability(lambda_val, k) for k in x_values]
+        # Calculate probabilities manually
+        x_values = []
+        probabilities = []
+        for k in range(x_max + 1):
+            prob = poisson_probability(lambda_val, k)
+            x_values.append(k)
+            probabilities.append(prob)
         
-        # Create histogram
+        # Create histogram using matplotlib
         plt.figure(figsize=(10, 6))
         plt.bar(x_values, probabilities, alpha=0.7)
         plt.title(f'Distribusi Poisson (λ = {lambda_val})')
