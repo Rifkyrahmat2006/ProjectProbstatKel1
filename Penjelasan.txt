@@ -1,0 +1,128 @@
+# Penjelasan Source Code Visualisasi Distribusi Poisson
+
+## 1. Struktur Program
+Program ini terdiri dari beberapa file utama:
+- `app.py`: File utama yang berisi logika backend
+- `templates/index.html`: File template untuk tampilan frontend
+- `static/`: Folder yang berisi gambar rumus
+- `requirements.txt`: File yang berisi dependensi program
+
+## 2. Penjelasan app.py
+
+### Import Library
+```python
+from flask import Flask, render_template, request, jsonify
+import math
+import matplotlib.pyplot as plt
+import io
+import base64
+```
+- `Flask`: Framework web untuk membuat aplikasi
+- `math`: Library standar Python untuk operasi matematika
+- `matplotlib.pyplot`: Library untuk membuat visualisasi
+- `io` dan `base64`: Untuk konversi gambar ke format base64
+
+### Fungsi Utama
+1. **Fungsi Factorial**
+```python
+def factorial(n):
+    if n == 0:
+        return 1
+    return n * factorial(n-1)
+```
+- Menghitung faktorial secara rekursif
+- Base case: factorial(0) = 1
+- Recursive case: n! = n * (n-1)!
+
+2. **Fungsi Poisson Probability**
+```python
+def poisson_probability(lambda_val, k):
+    return (math.exp(-lambda_val) * (lambda_val ** k)) / factorial(k)
+```
+- Mengimplementasikan rumus distribusi Poisson: P(X = k) = (e^-λ * λ^k) / k!
+- `lambda_val`: Parameter λ (lambda)
+- `k`: Jumlah kejadian
+
+### Route Flask
+1. **Route Index ('/')**
+```python
+@app.route('/')
+def index():
+    return render_template('index.html')
+```
+- Menampilkan halaman utama
+- Merender template index.html
+
+2. **Route Calculate ('/calculate')**
+```python
+@app.route('/calculate', methods=['POST'])
+def calculate():
+```
+- Menerima input dari form
+- Menghitung probabilitas Poisson
+- Membuat visualisasi histogram
+- Mengembalikan hasil dalam format JSON
+
+## 3. Penjelasan index.html
+
+### Struktur HTML
+1. **Header**
+- Menggunakan Bootstrap 5 untuk styling
+- Custom CSS untuk tampilan khusus
+
+2. **Form Input**
+```html
+<form id="poissonForm" class="mb-4">
+    <div class="mb-3">
+        <label for="lambda">Nilai λ (lambda)</label>
+        <input type="number" step="0.1" required>
+    </div>
+    <div class="mb-3">
+        <label for="x_max">Jumlah Peristiwa Maksimum</label>
+        <input type="number" step="0.1" required>
+    </div>
+</form>
+```
+- Input untuk nilai λ (lambda)
+- Input untuk batas atas (x_max)
+- Kedua input menerima nilai desimal (step="0.1")
+
+3. **Hasil Visualisasi**
+- Menampilkan histogram distribusi Poisson
+- Menampilkan tabel probabilitas
+
+### JavaScript
+```javascript
+document.getElementById('poissonForm').addEventListener('submit', async (e) => {
+    // Handle form submission
+    // Mengirim data ke server
+    // Menampilkan hasil
+});
+```
+- Menangani submit form
+- Mengirim data ke endpoint /calculate
+- Menampilkan hasil visualisasi dan tabel
+
+## 4. Alur Program
+1. User membuka website
+2. User memasukkan nilai λ dan x_max
+3. Data dikirim ke server
+4. Server menghitung probabilitas Poisson
+5. Server membuat visualisasi histogram
+6. Hasil dikirim kembali ke client
+7. Client menampilkan hasil visualisasi dan tabel
+
+## 5. Fitur Khusus
+1. **Perhitungan Manual**
+   - Menggunakan implementasi manual untuk faktorial
+   - Menghitung probabilitas Poisson tanpa library statistik
+
+2. **Visualisasi Interaktif**
+   - Histogram yang responsif
+   - Tabel probabilitas yang detail
+   - Loading indicator saat proses perhitungan
+
+3. **Validasi Input**
+   - Memastikan λ > 0
+   - Memastikan x_max ≥ 0
+   - Mendukung input nilai desimal

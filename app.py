@@ -22,7 +22,7 @@ def index():
 def calculate():
     try:
         lambda_val = float(request.form['lambda'])
-        x_max = int(request.form['x_max'])
+        x_max = float(request.form['x_max'])
         
         if lambda_val <= 0 or x_max < 0:
             return jsonify({'error': 'Invalid input values'}), 400
@@ -30,9 +30,11 @@ def calculate():
         # Calculate probabilities manually
         x_values = []
         probabilities = []
-        for k in range(x_max + 1):
+        # Convert x_max to integer for range, but keep original float value
+        x_max_int = int(x_max)
+        for k in range(x_max_int + 1):
             prob = poisson_probability(lambda_val, k)
-            x_values.append(k)
+            x_values.append(float(k))
             probabilities.append(prob)
         
         # Create histogram using matplotlib
